@@ -25,7 +25,7 @@ export const ListaPessoas = ({ urlApi, page }) => {
   if (error || data?.detail === "Not found") {
     return (
       <View>
-        <Text>Erro: {error || "Not found"}</Text>
+        <Text>Erro: {(error && JSON.stringify(error)) || "Not found"}</Text>
       </View>
     );
   }
