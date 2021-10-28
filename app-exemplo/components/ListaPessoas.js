@@ -11,9 +11,14 @@ import { useQuery } from "react-query";
 import { Pessoa } from "./Pessoa";
 import { carregaPessoas } from "../api";
 
-export const ListaPessoas = ({ urlApi, page }) => {
+export const ListaPessoas = ({
+  urlApi,
+  page,
+  setBtAnteriorDisabled,
+  setBtProximaDisabled,
+}) => {
   console.log("urlApi = ", urlApi);
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data, isFetching } = useQuery(
     `pessoas${page}`,
     carregaPessoas(urlApi)
   );
@@ -29,15 +34,20 @@ export const ListaPessoas = ({ urlApi, page }) => {
       </View>
     );
   }
+  setBtAnteriorDisabled(data.previous == null);
+  setBtProximaDisabled(data.next == null);
   return (
-    <FlatList
-      data={data.results}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.name}
-      contentContainerStyle={styles.listaInterna}
-      style={styles.lista}
-      extraData={urlApi}
-    />
+    <View>
+      {isFetching && <ActivityIndicator size="large" color="red" />}
+      <FlatList
+        data={data.results}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.name}
+        contentContainerStyle={styles.listaInterna}
+        style={styles.lista}
+        extraData={urlApi}
+      />
+    </View>
   );
 };
 

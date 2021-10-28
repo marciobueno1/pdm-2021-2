@@ -1,54 +1,29 @@
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ListaPessoas } from "./components/ListaPessoas";
 
+import { HomeScreen } from "./screens/HomeScreen";
+import { DetailsScreen } from "./screens/DetailsScreen";
+import { PeopleScreen } from "./screens/PeopleScreen";
+
+const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [page, setPage] = useState(1);
-  const handleAnteriorPress = () => {
-    setPage(page - 1);
-  };
-  const handleProximaPress = () => {
-    setPage(page + 1);
-  };
   return (
     <QueryClientProvider client={queryClient}>
-      <View style={styles.container}>
-        <Text style={{ fontSize: 40, fontFamily: "sans-serif" }}>
-          Lista de Pessoas
-        </Text>
-        <View style={styles.viewBotoes}>
-          <Button title="Anterior" onPress={handleAnteriorPress} />
-          <Button title="Próxima" onPress={handleProximaPress} />
-        </View>
-        <ListaPessoas
-          urlApi={`https://swapi.dev/api/people/?page=${page}`}
-          page={page}
-        />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ title: "Overview" }}
+          />
+          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="People" component={PeopleScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "beige",
-    paddingTop: 35,
-  },
-  pressableMargins: {
-    marginTop: 15,
-    marginBottom: 20,
-  },
-  text: {
-    backgroundColor: "black",
-    color: "white",
-    fontSize: 20,
-  },
-  viewBotoes: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-});
