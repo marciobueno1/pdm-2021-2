@@ -18,9 +18,31 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ title: "Overview" }}
+            options={{
+              title: "My home",
+              headerStyle: {
+                backgroundColor: "#f4511e",
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
           />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen
+            name="Details"
+            component={DetailsScreen}
+            initialParams={{ itemId: 42, otherParam: "default" }}
+            options={{
+              headerStyle: {
+                backgroundColor: "#f4511e",
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
           <Stack.Screen name="People" component={PeopleScreen} />
         </Stack.Navigator>
       </NavigationContainer>
